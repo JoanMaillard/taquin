@@ -14,11 +14,11 @@ int main() {
 		cin >> array[i];
 	}
 	Node startingNode(array);
-	
+
 	string result = pathFind(startingNode);
-	
+
 	cout << result;
-	
+
 	return EXIT_SUCCESS;
 }
 

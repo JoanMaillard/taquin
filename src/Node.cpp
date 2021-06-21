@@ -27,7 +27,7 @@ int Node::getPriority() const {
 }
 
 std::vector<int> Node::getPossibleMoves() const {
-	return _taquin.getPossibleMoves(); 
+	return _taquin.getPossibleMoves();
 }
 
 
