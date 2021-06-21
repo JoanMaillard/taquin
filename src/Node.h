@@ -30,5 +30,6 @@ private:
 	const int manhattanDistance();
 };
 
+bool operator<(const Node& a, const Node& b);
 
 #endif //LABO12_ASD_NODE_H

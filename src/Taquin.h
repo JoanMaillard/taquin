@@ -8,6 +8,8 @@
 
 class Taquin{
 friend std::ostream& operator<<(std::ostream& out, const Taquin &a);
+friend bool operator==(const Taquin &lhs, const Taquin &rhs);
+friend std::string hash(const Taquin &taquin);
 public:
 	Taquin();
 	Taquin(const std::array<int,9>& array);
@@ -16,6 +18,7 @@ public:
 	int trouvePiece(int valeur);
 	std::vector<int> getPossibleMoves() const;
 	void swapPiece(int lhs, int rhs);
+	long long int getValue();
 
 private:
 	std::array< std::array < Piece,3 > ,3 > puzzle;
@@ -28,7 +31,6 @@ private:
 };
 
 bool inputSolvable(const std::array<int,9>& array);
-bool operator<(const Taquin& a, const Taquin& b);
 
 
 

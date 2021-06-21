@@ -20,7 +20,7 @@ Node::Node(std::array<int, 9> array) {
 	updatePriority();
 }
 
-Taquin Node::getTaquin() {
+Taquin Node::getTaquin(){
 	return _taquin;
 }
 

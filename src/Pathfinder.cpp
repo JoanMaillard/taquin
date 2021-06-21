@@ -1,51 +1,53 @@
 #include "Pathfinder.h"
 #include "Node.h"
 #include "Taquin.h"
-#include <map>
+#include <queue>
 #include <string>
 #include <iostream>
 
-void push(std::map<Taquin, Node>& map, Node node){
-	auto tempNodePtr = map.find(node.getTaquin());
-	if (tempNodePtr == map.end()) {
-		map[node.getTaquin()] = node;
-	} else if (tempNodePtr->second.getPriority() > node.getPriority()) {
-		map[node.getTaquin()] = node;
-	}
+void push(std::priority_queue<Node>& map, Node node){
+	map.push(node);
 }
 
-Node top(const std::map<Taquin, Node>& map) {
-	Taquin returnIndex = map.begin()->first;
-	int lowestPriority = map.begin()->second.getPriority();
+void push(std::vector<Taquin>& map, Taquin taquin){
+	map.push_back(taquin);
+}
 
-	for (auto it = ++map.begin(); it != map.end(); ++it) {
-		int priority = it->second.getPriority();
-		if (priority < lowestPriority) {
-			returnIndex = it->first;
-			lowestPriority = priority;
+bool has(const std::vector<Taquin>& map, const Taquin &taquin) {
+	for (size_t i = 0; i < map.size(); ++i) {
+		if (taquin == map[i]) {
+			return true;
 		}
 	}
-	return map.find(returnIndex)->second;
+	return false;
 }
 
-void pop(std::map<Taquin, Node>& map) {
-	map.erase(top(map).getTaquin());
+Node top(const std::priority_queue<Node>& map) {
+	return map.top();
 }
 
-std::string pathFind(const Node startNode) {
+void pop(std::priority_queue<Node>& map) {
+	map.pop();
+}
+
+std::string pathFind(Node startNode) {
+	bool solved = false;
 	static int index = 0;// index de queue
 	Node currentNode = startNode; // node de départ
 	std::string toReturn = "";
 
 
-	std::map<Taquin, Node> openList; // map de Taquin-Node.
+	std::priority_queue<Node> openList; // map de Taquin-Node.
+	std::vector<Taquin> blackList;
+	std::cout << "Open list: " << std::endl;
 	push(openList, startNode); // push la première node dans la map
-
+	push(blackList, startNode.getTaquin());
+	std::cout << "----------------------------------------------" << std::endl;
 
 	do {
+		std::cout << "Current node: " << std::endl;
 		currentNode = top(openList);
-		std::cout << "Current node: " << currentNode << std::endl;
-		pop(openList);
+		std::cout << currentNode << std::endl;
 		std::vector<int> nextMoves = currentNode.getPossibleMoves(); // liste des mouvements possibles avec la situation actuelle
 
 		// generation de toutes les possibilites suivantes et adjonction dans la openList
@@ -56,23 +58,28 @@ std::string pathFind(const Node startNode) {
 			Taquin tempTaquin = currentNode.getTaquin(); // copie du taquin actuel
 			int tempPiece = tempTaquin.trouvePiece(0);
 			tempTaquin.swapPiece(tempPiece, nextMoves[i]); // modification de la copie
-
-			push(openList, (Node){tempTaquin, currentNode.getLevel()+currentNode.getPriority(), tempPreviousMoves});// construction et adjonction de la nouvelle node dans la openList
-			++index;
-
+			Node tempNode {tempTaquin, currentNode.getLevel()+1, tempPreviousMoves};
+			if (!has(blackList, tempNode.getTaquin())) {
+				push(openList, tempNode);// construction et adjonction de la nouvelle node dans la openList
+				push(blackList, tempNode.getTaquin());
+				++index;
+			}
 		}
+		pop(openList);
 		// test de resolution
 		if (currentNode.getTaquin().estResolu()) {
+			solved = true;
 			std::cout << "Solution la plus courte :";
-			while (!openList.empty()) {
-				pop(openList); // destruction de toutes les nodes restantes, garbage collection
+			for (size_t i = 0; i < openList.size(); ++i) {
+				pop(openList);
 			}
+			blackList.clear();
 			for (int i = 0; i < currentNode.getPreviousMoves().size(); ++i) {
 				std::cout << currentNode.getPreviousMoves()[i] << " "; // display
 			}
 		}
 
-	} while (!openList.empty()); // infinite loop guard
+	} while (!openList.empty() && !solved); // infinite loop guard
 
 
 	return toReturn;

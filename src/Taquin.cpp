@@ -119,22 +119,22 @@ void Taquin::evaluatePossibleMoves(std::vector<int>& movesTable) {
 		movesTable = std::vector<int>{1, 5};
 		break;
 	 case 3:
-		movesTable = std::vector<int>{4, 0, 6};
+		movesTable = std::vector<int>{0, 4, 6};
 		break;
 	 case 4:
-		movesTable = std::vector<int>{3, 5, 1, 7};
+		movesTable = std::vector<int>{1, 3, 5, 7};
 		break;
 	 case 5:
-		movesTable = std::vector<int>{4, 2, 8};
+		movesTable = std::vector<int>{2, 4, 8};
 		break;
 	 case 6:
-		movesTable = std::vector<int>{7, 3};
+		movesTable = std::vector<int>{3, 7};
 		break;
 	 case 7:
-		movesTable = std::vector<int>{6, 8, 4};
+		movesTable = std::vector<int>{4, 6, 8};
 		break;
 	 case 8:
-		movesTable = std::vector<int>{7, 5};
+		movesTable = std::vector<int>{5, 7};
 		break;
 	 default:
 		throw std::out_of_range("Vector pas valide");
@@ -163,4 +163,15 @@ std::ostream& operator<<(std::ostream& out, const Taquin &a) {
 
 bool operator<(const Taquin& a, const Taquin& b){
 	return a.distanceManhattan() < b.distanceManhattan();
+}
+
+bool operator==(const Taquin& a, const Taquin& b) {
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			if (a.puzzle[i][j].valeur != b.puzzle[i][j].valeur) {
+				return false;
+			}
+		}
+	}
+	return true;
 }
