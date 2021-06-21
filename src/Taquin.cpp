@@ -18,7 +18,7 @@ Taquin::Taquin(){
 
 //Constructeur avec un tableaux d'elements
 Taquin::Taquin(const std::array<int,9>& array){
-	if(inputValide(array)) {
+	if(inputSolvable(array)) {
 		const size_t puzzleSize = puzzle.size();
 		for (std::size_t x = 0; x < puzzleSize; ++x) {
 			for (std::size_t y = 0; y < puzzleSize; ++y) {
@@ -44,7 +44,7 @@ bool Taquin::estResolu(){
 	return true;
 }
 
-bool inputValide(const std::array<int,9>& array){
+bool inputSolvable(const std::array<int,9>& array){
 	int inversions = 0;
 
 	for ( int i = 0; i < 9; i++ )
@@ -52,7 +52,7 @@ bool inputValide(const std::array<int,9>& array){
 			if ( array[j] > array[i] && array[i] != 0 && array[j] != 0 )
 				inversions++;
 
-	// Si le nombre d'inversion est paire le puzzle est valide
+	// Si le nombre d'inversion est paire le puzzle est solvable
 	return inversions % 2 == 0;
 
 }
@@ -64,7 +64,7 @@ int distancePiece(const Piece& piece, int cordX, int cordY){
 	return distanceX + distanceY;
 }
 
-int Taquin::distanceManhattan(){
+int Taquin::distanceManhattan() const {
 	int distance = 0;
 	const size_t puzzleSize = puzzle.size();
 
@@ -148,4 +148,19 @@ std::vector<int> Taquin::getPossibleMoves() const {
 void Taquin::swapPiece(int lhs, int rhs) {
 	swap(puzzle[lhs/3][lhs%3], puzzle[rhs/3][rhs%3]);
 	evaluatePossibleMoves(_possibleMoves);
+}
+
+std::ostream& operator<<(std::ostream& out, const Taquin &a) {
+	out << "Taquin: " << std::endl;
+	for (int i = 0; i < 3; ++i) {
+		for (int j = 0; j < 3; ++j) {
+			out << a.puzzle[i][j] << " ";
+		}
+		out << std::endl;
+	}
+	return out;
+}
+
+bool operator<(const Taquin& a, const Taquin& b){
+	return a.distanceManhattan() < b.distanceManhattan();
 }

@@ -13,3 +13,8 @@ Piece initPiece(int valeur, int x, int y ){
 void swap(Piece& lhs, Piece& rhs){
    std::swap(lhs.valeur, rhs.valeur);
 }
+
+std::ostream& operator<<(std::ostream& out, const Piece &a) {
+   out << a.valeur;
+   return out;
+}

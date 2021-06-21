@@ -1,6 +1,12 @@
 #include "Node.h"
 #define FACTEUR_ELARGISSEMENT 1
 
+Node::Node(){
+	_taquin = Taquin();
+	_level = 0;
+	updatePriority();
+}
+
 Node::Node(Taquin taquin, int level, std::vector<int> previousMoves) {
 	_taquin = taquin;
 	_level = level;
@@ -45,4 +51,9 @@ const int Node::manhattanDistance() {
 
 bool operator<(const Node &a, const Node &b) {
 	return a.getPriority() > b.getPriority();
+}
+
+std::ostream& operator<<(std::ostream& out, const Node &a) {
+	out << a._taquin;
+	return out;
 }
