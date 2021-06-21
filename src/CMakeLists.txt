@@ -3,4 +3,4 @@ project(ASD_Labs_2021_Taquin)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(Taquin main.cpp)
+add_executable(Taquin main.cpp Node.cpp Pathfinder.cpp Piece.cpp Taquin.cpp)
