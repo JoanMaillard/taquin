@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+src/.vscode/*
+src/build/*
+src/CMakeFiles/*
+src/CMakeCache.txt
