@@ -10,3 +10,5 @@ que plusieurs essais infructueux de modification des structures de données util
 notamment, notre algorithme semble incapable de donner des solutions aux problèmes compliqués
 (plus de 4 mouvements). Cela nous rend donc incapables de répondre aux questions posées dans
 le __handout__ du laboratoire.
+
+Nous pouvons tout de même vous dire que dans le pire des cas (ou il faudrait calculer tout les états possible du puzzle) il y aurait '(n*n)!' 
