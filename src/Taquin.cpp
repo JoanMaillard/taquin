@@ -10,7 +10,7 @@ Taquin::Taquin(){
 	for(std::size_t x = 0; x < puzzleSize; ++x){
 		for(std::size_t y = 0; y < puzzleSize; ++y){
 			size_t valeur = x * puzzleSize  + y;
-			puzzle[x][y] = initPiece(valeur, x, y); 
+			puzzle[x][y] = initPiece(valeur, x, y);
 		}
 	}
 	evaluatePossibleMoves(_possibleMoves);
@@ -85,11 +85,17 @@ int Taquin::trouvePiece(int valeur){
 		throw std::invalid_argument("Taquin pas valide");
 	}
 	const size_t puzzleSize = puzzle.size();
+	int toReturn = -1;
 	for (size_t x = 0; x < puzzleSize; ++x) {
 		for (size_t y = 0; y < puzzleSize; ++y) {
 			if (puzzle[x][y].valeur == valeur)
-				return x * puzzleSize + y;
+				toReturn =  x * puzzleSize + y;
 		}
+	}
+	if (toReturn != -1) {
+		return toReturn;
+	} else {
+		throw std::runtime_error("Piece introuvable");
 	}
 }
 
